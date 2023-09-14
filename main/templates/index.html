@@ -10,10 +10,10 @@
 <body>
     <div class="container">
         <h1>Прогноз погоды для твоего города!</h1>
-        <form action="" method="POST">
+        <form action="{% url 'weather' %}" method="POST">
             {% csrf_token %}
             <label for="inputPassword5" class="form-label">Город (на английском):</label>
-            <input type="text" class="form-text">
+            <input type="text" class="form-text" name="city">
             <br>
             <input type="submit" class="btn btn-info">
         </form>

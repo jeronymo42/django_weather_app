@@ -1,6 +1,6 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render
 from .api_config import DATA_TOKEN, WEATHER_TOKEN
-import requests, json
+import requests
 
 # Create your views here.
 
@@ -13,22 +13,29 @@ def get_client_ip(request):
     return ip
 
 def index(request):
-    # Getting client's IP adress
-    ip = get_client_ip(request)
+    city = ''
+    if request.method == 'POST':
+        city = request.POST['city']
+    if request.method == 'GET':
+        # Getting client's IP adress
+        ip = get_client_ip(request)
 
-    # Requesting client's city by IP from API
-    params = {"token": DATA_TOKEN}
+        # Requesting client's city by IP from API
+        params = {"token": DATA_TOKEN}
+        try:
+            city = requests.get(f'https://ipinfo.io/{ip}', params=params).json()['city']
+        except:
+            city = 'Moscow'
     try:
-        city = requests.get(f'https://ipinfo.io/{ip}', params=params).json()['city']
+        # Requesting weather forecast for specific city for 3 days
+        querystring = {"q":city,"days":"3"}
+        headers = {
+            "X-RapidAPI-Key": WEATHER_TOKEN,
+            "X-RapidAPI-Host": "weatherapi-com.p.rapidapi.com"
+        }
+        response = requests.get("https://weatherapi-com.p.rapidapi.com/forecast.json", headers=headers, params=querystring).json()
+        forecast = response['forecast']['forecastday']
+        context = {'days': forecast, 'city': city}
+        return render(request, 'index.html', context)
     except:
-        city = 'Moscow'
-    # Requesting weather forecast for specific city for 3 days
-    querystring = {"q":city,"days":"3"}
-    headers = {
-        "X-RapidAPI-Key": WEATHER_TOKEN,
-        "X-RapidAPI-Host": "weatherapi-com.p.rapidapi.com"
-    }
-    response = requests.get("https://weatherapi-com.p.rapidapi.com/forecast.json", headers=headers, params=querystring).json()
-    forecast = response['forecast']['forecastday']
-    context = {'days': forecast, 'city': city}
-    return render(request, 'index.html', context)
+        return render(request, 'error.html', {'city': city})
