@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прогноз погоды</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Прогноз погоды для твоего города!</h1>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <label for="inputPassword5" class="form-label">Город (на английском):</label>
+            <input type="text" class="form-text">
+            <br>
+            <input type="submit" class="btn btn-info">
+        </form>
+    </div>
+    <div class="container">
+        <h5>Мы считаем, что ты находишься в городе: <span> {{ city }} </span></h5>
+    </div>
+    <div class="main">
+        {% for day in days %}
+        <div class="card">
+            <img src='{{ day.day.condition.icon }}' class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">{{ day.date }}</h5>
+              <h5 class="card-title">{{ day.day.condition.text }}</h5>
+              <p class="card-text">{{ day.day.mintemp_c }}&#x2103 - {{ day.day.maxtemp_c }}&#x2103</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <p>Photo by Neda Astani on Unsplash</p>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>

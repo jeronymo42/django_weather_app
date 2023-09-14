@@ -18,13 +18,17 @@ def index(request):
 
     # Requesting client's city by IP from API
     params = {"token": DATA_TOKEN}
-    city = requests.get(f'https://ipinfo.io/{ip}', params=params).json()['city']
-
+    try:
+        city = requests.get(f'https://ipinfo.io/{ip}', params=params).json()['city']
+    except:
+        city = 'Moscow'
     # Requesting weather forecast for specific city for 3 days
     querystring = {"q":city,"days":"3"}
     headers = {
         "X-RapidAPI-Key": WEATHER_TOKEN,
         "X-RapidAPI-Host": "weatherapi-com.p.rapidapi.com"
     }
-    response = requests.get("https://weatherapi-com.p.rapidapi.com/forecast.json", headers=headers, params=querystring)
-    return HttpResponse(response)
+    response = requests.get("https://weatherapi-com.p.rapidapi.com/forecast.json", headers=headers, params=querystring).json()
+    forecast = response['forecast']['forecastday']
+    context = {'days': forecast, 'city': city}
+    return render(request, 'index.html', context)

@@ -1,0 +1,79 @@
+body {
+    background: url('/static/img/bg.jpg');
+    background-size: 1600px;
+    background-repeat: no-repeat;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+h1 {
+    text-align: center;
+    margin-top: 3%;
+    color: rgba(12, 1, 22, 0.458);
+    text-transform: uppercase;
+    text-shadow: 5px 5px #558ABB;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(169, 169, 169, 0.47);
+    max-width: 600px;
+    margin: 2% auto;
+    padding: 2%;
+    border-radius: 20px;
+}
+
+form input {
+    border-radius: 5px;
+}
+
+.form-label {
+    font-weight: 600;
+    font-size: large;
+}
+
+.container h5 {
+    border-radius: 20px;
+    max-width: 600px;
+    margin: auto;
+    padding-top: 30px;
+    height: 80px;
+    background-color: rgba(19, 78, 133, 0.415);
+    text-align: center;
+}
+
+h5 span {
+    font-weight: 600;
+    color: purple;
+}
+.main {
+    max-width: 600px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.card {
+    min-width: 150px;
+}
+
+.card img {
+    max-width: 100px;
+    align-self: center;
+
+}
+.card-text {
+    padding: 2px;
+}
+
+.card-body {
+    text-align: center;
+}
+
+p {
+    color: rgba(0, 0, 0, 0.375);
+    font-size: large;
+    font-weight: 600;
+    text-align: right;
+    padding: 240px 20px;
+}
